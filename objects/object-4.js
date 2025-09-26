@@ -4,7 +4,6 @@ const obj = {
   state: "Tamil Nadu",
 };
 
-console.log(Object.values(obj));
-Object.entries(obj).forEach(([key, value]) => {
+Object.entries(obj).forEach(([key]) => {
   console.log(key + " " + obj[key]);
 });
