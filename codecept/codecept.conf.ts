@@ -15,6 +15,7 @@ export const config: CodeceptJS.MainConfig = {
       browser: "chromium",
       url: "http://localhost",
       show: true,
+      waitForNavigation: "domcontentloaded",
     },
     Expect: {
       require: "@codeceptjs/expect-helper",

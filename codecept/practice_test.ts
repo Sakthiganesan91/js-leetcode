@@ -20,6 +20,16 @@ Scenario("Read table rows and columns", async ({ I }) => {
   console.log(text);
 });
 
+//3
+Scenario.only("Login with username and password", ({ I }) => {
+  I.amOnPage(url);
+  I.fillField("//input[@name='userid']", "SeleniumByArun");
+  I.fillField(`//input[@name='pswrd']`, "Test143$");
+  I.click(`//form[@name='login']/input[@type='button' and @value='Login']`);
+  I.waitForElement(`//div[@id='header-inner']`);
+  I.seeElement(`//div[@id='header-inner']`);
+});
+
 //4
 Scenario("Read from textbox", async ({ I }) => {
   I.amOnPage(url);
