@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>XPath Practice Playground</title>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial;
+        padding: 24px;
+      }
+      section {
+        margin-bottom: 28px;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+      }
+      h1,
+      h2 {
+        margin: 6px 0;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      th,
+      td {
+        border: 1px solid #bbb;
+        padding: 6px 8px;
+      }
+      .muted {
+        color: #666;
+        font-size: 0.9em;
+      }
+      .code {
+        background: #f7f7f7;
+        padding: 6px;
+        border-radius: 4px;
+        font-family: monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>XPath Practice Playground</h1>
+    <p class="muted">
+      This single HTML file contains many different elements you can target with
+      XPath. Open it in your browser and use your test runner (Selenium,
+      Playwright, browser console + $x) to experiment.
+    </p>
+
+    <section id="basic-structure">
+      <h2>Basic structure</h2>
+      <div id="container">
+        <p>
+          Simple paragraph with <strong>bold</strong> and <em>emphasis</em>.
+        </p>
+        <p>
+          Text with irregular spacing to test <code>normalize-space()</code>.
+        </p>
+        <div class="group" data-role="card">
+          <h3>Card One</h3>
+          <p class="desc">Description for card one.</p>
+          <a href="https://example.com/path?query=1" title="Go to example"
+            >Visit example</a
+          >
+        </div>
+        <div class="group" data-role="card" data-index="2">
+          <h3>Card Two</h3>
+          <p class="desc">Description for card two.</p>
+          <a href="/local/path" title="Open local">Local link</a>
+        </div>
+        <div class="group special" data-role="card" data-index="3">
+          <h3>Card Three</h3>
+          <p class="desc">Description for card three.</p>
+          <a href="mailto:hello@example.com" title="Email">Send mail</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="lists">
+      <h2>Lists</h2>
+      <ul id="fruits">
+        <li class="item">Apple</li>
+        <li class="item">Banana</li>
+        <li class="item special">Cherry</li>
+        <li class="item">Date</li>
+      </ul>
+
+      <ol id="numbers">
+        <li>One</li>
+        <li>Two</li>
+        <li>Three</li>
+      </ol>
+    </section>
+
+    <section id="table-examples">
+      <h2>Table examples</h2>
+      <table id="people">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th class="age">Age</th>
+            <th>Occupation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="row" data-id="p1">
+            <td>Alice</td>
+            <td class="age">28</td>
+            <td>Engineer</td>
+          </tr>
+          <tr class="row" data-id="p2">
+            <td>Bob</td>
+            <td class="age">42</td>
+            <td>Manager</td>
+          </tr>
+          <tr class="row special" data-id="p3">
+            <td>Carol</td>
+            <td class="age">35</td>
+            <td>Designer</td>
+          </tr>
+          <tr class="row" data-id="p4">
+            <td>Dan</td>
+            <td class="age">22</td>
+            <td>Intern</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3">Table footer - total 4 people</td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <table id="complex">
+        <tr>
+          <td rowspan="2">R1C1 (rowspan 2)</td>
+          <td>R1C2</td>
+        </tr>
+        <tr>
+          <td>R2C2</td>
+        </tr>
+      </table>
+    </section>
+
+    <section id="forms">
+      <h2>Forms</h2>
+      <form id="signup" action="#" method="post">
+        <label for="username">Username</label>
+        <input
+          id="username"
+          name="username"
+          type="text"
+          value="user_123"
+          data-meta="primary"
+        />
+
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" />
+
+        <fieldset>
+          <legend>Interests</legend>
+          <label
+            ><input type="checkbox" name="interests" value="sports" checked />
+            Sports</label
+          >
+          <label
+            ><input type="checkbox" name="interests" value="music" />
+            Music</label
+          >
+          <label
+            ><input type="checkbox" name="interests" value="art" /> Art</label
+          >
+        </fieldset>
+
+        <label for="country">Country</label>
+        <select id="country" name="country">
+          <option value="in">India</option>
+          <option value="us">United States</option>
+          <option value="uk">United Kingdom</option>
+        </select>
+
+        <button type="submit">Sign up</button>
+      </form>
+    </section>
+
+    <section id="images-and-media">
+      <h2>Images & SVG (namespaces)</h2>
+      <img
+        src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='40'><rect width='120' height='40' fill='lightgrey' /><text x='10' y='25'>SVG Image</text></svg>"
+        alt="inline-svg"
+        id="inline-svg"
+      />
+
+      <!-- an explicit SVG element for namespace practice -->
+      <svg
+        id="shapes"
+        xmlns="http://www.w3.org/2000/svg"
+        width="200"
+        height="80"
+      >
+        <rect id="r1" x="10" y="10" width="40" height="40" />
+        <circle id="c1" cx="100" cy="30" r="20" />
+      </svg>
+    </section>
+
+    <section id="anchors-and-attributes">
+      <h2>Anchors & attributes</h2>
+      <a href="https://example.com/page1" title="Go to page1">Example Page 1</a>
+      <a href="https://other.example.com/" title="Other site">Other</a>
+      <a href="#local" title="Local anchor">Local</a>
+    </section>
+
+    <section id="nested-and-siblings">
+      <h2>Nested elements & sibling axes</h2>
+      <div class="outer">
+        <p class="first">First</p>
+        <p class="second">Second</p>
+        <div class="inner">
+          <span>Span A</span>
+          <span>Span B</span>
+          <span>Span C</span>
+        </div>
+        <p class="third">Third</p>
+      </div>
+    </section>
+
+    <section id="comments-and-text-nodes">
+      <h2>Comments and text nodes</h2>
+      <!-- This is a comment node. Use comment() in XPath to find it. -->
+      <p>Some text with <span>inline node</span> and trailing whitespace</p>
+    </section>
+
+    <section id="iframe-section">
+      <h2>Iframe (embedded practice frame)</h2>
+      <p class="muted">
+        The iframe below uses <code>srcdoc</code> so it's part of the same file
+        — great for testing iframe switching in automation tools.
+      </p>
+
+      <iframe
+        id="practice-frame"
+        srcdoc='<!doctype html>
+      <html>
+      <head><meta charset="utf-8"><title>Iframe Inner</title></head>
+      <body>
+        <h2>Inner Frame</h2>
+        <p id="inner-p">Inner paragraph with <a href="https://iframe.example/one" class="if-link">inner link</a></p>
+        <ul>
+          <li data-x="a">IF item 1</li>
+          <li data-x="b">IF item 2</li>
+        </ul>
+        <form>
+          <input name="frameName" value="frame_user" />
+        </form>
+      </body>
+      </html>'
+        width="100%"
+        height="220"
+      ></iframe>
+    </section>
+
+    <section id="dynamic-like-structure">
+      <h2>Dynamic-like structure & repeated nodes</h2>
+      <div id="repeater">
+        <article class="post" data-postid="101">
+          <h3>Post A</h3>
+          <p>Alpha</p>
+        </article>
+        <article class="post" data-postid="102">
+          <h3>Post B</h3>
+          <p>Beta</p>
+        </article>
+        <article class="post" data-postid="103">
+          <h3>Post C</h3>
+          <p>Gamma</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="edge-cases">
+      <h2>Edge cases</h2>
+      <div>
+        <p>Number as text: <span class="num">001</span></p>
+        <p>Empty element: <span class="empty"></span></p>
+        <p>Element with special chars: <span>&amp; &lt; &gt; " '</span></p>
+      </div>
+    </section>
+
+    <footer style="margin-top: 22px; font-size: 0.9em; color: #555">
+      <p>Saved queries (quick tips):</p>
+      <ol>
+        <li class="code">
+          Use browser console: <code>$x("//div[@data-role='card']//h3")</code>
+        </li>
+      </ol>
+    </footer>
+  </body>
+</html>
+
+<!--
+    Example XPath queries to try (not exhaustive):
+      //div[@data-role='card']//h3[text()="Card Two"]
+      //ul/li[position()=last()-1]
+      //table//tr[td[@class='age' and number(.) &gt; 30]]
+      //a[contains(@href,'example.com') and starts-with(@title,'Go')]
+      //input[@type='checkbox' and not(@checked)]
+      //div[@id='container']//p[normalize-space()="Some   spaced   text"]
+      //svg:svg/*[local-name() = 'rect']   (practice namespaces)
+      //section//following-sibling::section[1]
+      //div[@class='group']/descendant::span[3]
+      //iframe[@id='practice-frame']//body//a    (switch to iframe then run)
+  -->
