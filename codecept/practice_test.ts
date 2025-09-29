@@ -57,6 +57,17 @@ Scenario("Fill and extract text", async ({ I }) => {
   I.seeInCurrentUrl(`https://omayo.blogspot.com/search?q=Searching`);
 });
 
+//7
+Scenario.only("read options and click", async ({ I }) => {
+  I.amOnPage(url);
+  const options = await I.grabTextFromAll(`//select[@id='drop1']/option`);
+  for (let option of options) {
+    console.log(option);
+  }
+  I.selectOption(`//select[@id='drop1']`, "doc 1");
+  I.seeInField(`//select[@id='drop1']`, "doc 1");
+});
+
 //8
 Scenario("Verify delayed button working", async ({ I }) => {
   I.amOnPage(url);
