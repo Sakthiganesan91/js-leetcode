@@ -58,7 +58,7 @@ Scenario("Fill and extract text", async ({ I }) => {
 });
 
 //7
-Scenario.only("read options and click", async ({ I }) => {
+Scenario("read options and click", async ({ I }) => {
   I.amOnPage(url);
   const options = await I.grabTextFromAll(`//select[@id='drop1']/option`);
   for (let option of options) {
@@ -75,4 +75,12 @@ Scenario("Verify delayed button working", async ({ I }) => {
   I.waitForElement(`//div[@id='myDropdown']`, 3);
   I.click(`//div[@id='myDropdown']//a[text()='Flipkart']`);
   I.seeCurrentUrlEquals(`https://www.flipkart.com/`);
+});
+
+//9
+Scenario("valid error keyword in iframe", ({ I }) => {
+  I.amOnPage(url);
+  I.switchTo(`//iframe[@id='iframe2']`);
+
+  I.switchTo();
 });
