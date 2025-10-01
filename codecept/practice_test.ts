@@ -3,13 +3,9 @@ Feature("practice");
 const url = `https://omayo.blogspot.com/`;
 
 //1
-Scenario("Correct page loads on clicking menu item", ({ I }) => {
+Scenario("Correct page loads on clicking menu item", ({ I, homePage }) => {
   I.amOnPage(url);
-
-  I.moveCursorTo(`//div[@id='cssmenu']//span[@id='blogsmenu']`);
-  I.click({
-    xpath: `//div[@id='cssmenu']//span[text()='SeleniumByArun']`,
-  });
+  homePage.openMenuOption("blogsmenu", "SeleniumByArun");
   I.seeInCurrentUrl("https://selenium-by-arun.blogspot.com/");
 });
 
@@ -21,11 +17,9 @@ Scenario("Read table rows and columns", async ({ I }) => {
 });
 
 //3
-Scenario.only("Login with username and password", ({ I }) => {
+Scenario("Login with username and password", ({ I, loginPage }) => {
   I.amOnPage(url);
-  I.fillField("//input[@name='userid']", "SeleniumByArun");
-  I.fillField(`//input[@name='pswrd']`, "Test143$");
-  I.click(`//form[@name='login']/input[@type='button' and @value='Login']`);
+  loginPage.login("SeleniumByArun", "Test143$");
   I.waitForElement(`//div[@id='header-inner']`);
   I.seeElement(`//div[@id='header-inner']`);
 });
@@ -38,15 +32,10 @@ Scenario("Read from textbox", async ({ I }) => {
 });
 
 //5
-Scenario("Verify button status", async ({ I }) => {
+Scenario.only("Verify button status", async ({ I, homePage }) => {
   I.amOnPage(url);
-  let buttonOneStatus = await I.grabDisabledElementStatus(
-    `//button[@id='but1']`
-  );
-  let buttonTwoStatus = await I.grabDisabledElementStatus(
-    `//button[@id='but2']`
-  );
-  I.expectTrue(buttonOneStatus && !buttonTwoStatus);
+  const res = await homePage.verifyButtonDisableStatus();
+  I.expectTrue(res);
 });
 
 //6
