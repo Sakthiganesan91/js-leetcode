@@ -1,3 +1,5 @@
+import { within } from "codeceptjs";
+
 const { I } = inject();
 
 class homePage {
@@ -6,21 +8,33 @@ class homePage {
     buttonOne: string;
     buttonTwo: string;
   };
+  search: {
+    searchInput: string;
+    searchButton: string;
+  };
   constructor() {
     this.menu = `//div[@id='cssmenu']`;
     this.buttons = {
       buttonOne: `//button[@id='but1']`,
       buttonTwo: `//button[@id='but2']`,
     };
+    this.search = {
+      searchInput: `//input[@name='q']`,
+      searchButton: `//input[@title='search' and @type='submit']`,
+    };
   }
 
-  openMenuOption(subMenu: string, option: string) {
-    I.moveCursorTo({
-      xpath: `${this.menu}//span[@id='${subMenu}']`,
+  async openMenuOption(subMenu: string, option: string) {
+    await within(this.menu, () => {
+      I.moveCursorTo(`//span[@id='${subMenu}']`);
+      I.click(`//span[text()='${option}']`);
     });
-    I.click(`${this.menu}//span[text()='${option}']`);
   }
 
+  validateSearch(searchString: string) {
+    I.fillField(this.search.searchInput, searchString);
+    I.click(this.search.searchButton);
+  }
   async verifyButtonDisableStatus() {
     try {
       let buttonOneStatus = await I.grabDisabledElementStatus(

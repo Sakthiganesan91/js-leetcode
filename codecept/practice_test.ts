@@ -32,18 +32,17 @@ Scenario("Read from textbox", async ({ I }) => {
 });
 
 //5
-Scenario.only("Verify button status", async ({ I, homePage }) => {
+Scenario("Verify button status", async ({ I, homePage }) => {
   I.amOnPage(url);
   const res = await homePage.verifyButtonDisableStatus();
   I.expectTrue(res);
 });
 
 //6
-Scenario("Fill and extract text", async ({ I }) => {
+Scenario.only("Fill and extract text", async ({ I, homePage }) => {
   I.amOnPage(url);
-  I.fillField(`//input[@name='q']`, "Searching");
-  I.click(`//input[@title='search' and @type='submit']`);
-  I.seeInCurrentUrl(`https://omayo.blogspot.com/search?q=Searching`);
+  homePage.validateSearch("Searching");
+  I.seeInCurrentUrl(`/search?q=Searching`);
 });
 
 //7
