@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { Login } from "../pages/Login";
 
 const LOGIN_URL =
   "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login";
@@ -15,16 +16,20 @@ const fields = {
 };
 test("verify login flow", async ({ page }) => {
   await page.goto(LOGIN_URL, { waitUntil: "networkidle" });
-  await expect(page.locator(fields.username)).toBeVisible();
-  await expect(page.locator(fields.password)).toBeVisible();
-  await page.locator(fields.username).fill(loginUsername);
-  await page.locator(fields.password).fill(loginPassword);
-  await expect(page.locator(fields.loginButton)).toBeEnabled();
-  const button = page.locator(fields.loginButton);
-  await button.click();
-  await page.waitForURL(DASHBOARD_URL, {
-    waitUntil: "networkidle",
-  });
-  await expect(page).toHaveURL(DASHBOARD_URL);
-  await expect(page.locator(fields.dashboardUsername)).toBeVisible();
+  const loginPage = new Login(page);
+  await loginPage.login(loginUsername, loginPassword);
+  await loginPage.verifyLogin(DASHBOARD_URL);
+
+  // await expect(page.locator(fields.username)).toBeVisible();
+  // await expect(page.locator(fields.password)).toBeVisible();
+  // await page.locator(fields.username).fill(loginUsername);
+  // await page.locator(fields.password).fill(loginPassword);
+  // await expect(page.locator(fields.loginButton)).toBeEnabled();
+  // const button = page.locator(fields.loginButton);
+  // await button.click();
+  // await page.waitForURL(DASHBOARD_URL, {
+  //   waitUntil: "networkidle",
+  // });
+  // await expect(page).toHaveURL(DASHBOARD_URL);
+  // await expect(page.locator(fields.dashboardUsername)).toBeVisible();
 });
