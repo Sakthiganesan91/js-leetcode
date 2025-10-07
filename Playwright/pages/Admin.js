@@ -26,7 +26,7 @@ export class Admin {
 
   async navigateAdminPage(url) {
     let _page = this.page;
-    await expect(_page).toHaveURL(url);
+    await _page.goto(url, { waitUntil: "networkidle" });
     await this.action.click(this.dashBoardFields.adminLink);
     await expect(_page.locator(this.dashBoardFields.adminLink)).toContainClass(
       "active"
