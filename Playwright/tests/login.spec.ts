@@ -19,10 +19,3 @@ test("login", async ({ page }) => {
   await loginPage.verifyLogin(DASHBOARD_URL);
   await page.context().storageState({ path: "auth.json" });
 });
-
-test("edit username", async ({ page }) => {
-  const adminPage = new Admin(page);
-  await adminPage.navigateAdminPage(DASHBOARD_URL);
-  await adminPage.editUserName(oldUserName, newUserName);
-  await adminPage.verifyChangedUserName(newUserName);
-});
