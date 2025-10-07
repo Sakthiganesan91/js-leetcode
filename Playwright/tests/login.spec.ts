@@ -11,10 +11,10 @@ const fields = {
   username: `//input[@name='username']`,
   password: `//input[@name='password']`,
   loginButton: `//form//button[@type='submit' and normalize-space(contains(text(),'Login'))]`,
-  dashboardUsername: `//div[@id='app']//p[contains(@class,'oxd-userdropdown-name') and text()]`,
+  dashboardUsername: `//div[@id='app']//p[contains(@class,'oxd-userdropdown-name') and normalize-space(text())]`,
 };
 test("verify login flow", async ({ page }) => {
-  await page.goto(LOGIN_URL, { waitUntil: "domcontentloaded" });
+  await page.goto(LOGIN_URL, { waitUntil: "networkidle" });
   await expect(page.locator(fields.username)).toBeVisible();
   await expect(page.locator(fields.password)).toBeVisible();
   await page.locator(fields.username).fill(loginUsername);
@@ -23,7 +23,7 @@ test("verify login flow", async ({ page }) => {
   const button = page.locator(fields.loginButton);
   await button.click();
   await page.waitForURL(DASHBOARD_URL, {
-    waitUntil: "domcontentloaded",
+    waitUntil: "networkidle",
   });
   await expect(page).toHaveURL(DASHBOARD_URL);
   await expect(page.locator(fields.dashboardUsername)).toBeVisible();
