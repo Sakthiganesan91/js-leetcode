@@ -1,4 +1,5 @@
 import { expect } from "@playwright/test";
+import { Action } from "../helper/Action";
 
 export class Login {
   constructor(page) {
@@ -9,6 +10,7 @@ export class Login {
       loginButton: `//form//button[@type='submit' and normalize-space(contains(text(),'Login'))]`,
       dashboardUsername: `//div[@id='app']//p[contains(@class,'oxd-userdropdown-name') and normalize-space(text())]`,
     };
+    this.action = new Action(page);
   }
 
   async login(username, password) {
@@ -18,19 +20,16 @@ export class Login {
     let _page = this.page;
     await expect(_page.locator(usernameField)).toBeVisible();
     await expect(_page.locator(passwordField)).toBeVisible();
-    await _page.locator(usernameField).fill(username);
-    await _page.locator(passwordField).fill(password);
+    await this.action.fillField(usernameField, username);
+    await this.action.fillField(passwordField, password);
     await expect(_page.locator(loginButton)).toBeEnabled();
-    const button = _page.locator(loginButton);
-    await button.click();
+    await this.action.click(loginButton);
   }
 
   async verifyLogin(url) {
     let dashboardUsernameField = this.fields.dashboardUsername;
     let _page = this.page;
-    await _page.waitForURL(url, {
-      waitUntil: "networkidle",
-    });
+    await this.action.waitForURL(url, "networkidle");
     await expect(_page).toHaveURL(url);
     await expect(_page.locator(dashboardUsernameField)).toBeVisible();
   }
