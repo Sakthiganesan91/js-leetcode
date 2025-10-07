@@ -1,9 +1,6 @@
 import { test } from "@playwright/test";
 import { Login } from "../pages/Login";
-import { Admin } from "../pages/Admin";
 
-let oldUserName = "Sairam";
-let newUserName = "Sriram";
 const LOGIN_URL =
   "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login";
 
