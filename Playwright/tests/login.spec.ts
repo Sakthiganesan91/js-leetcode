@@ -1,18 +1,17 @@
 import { test } from "@playwright/test";
 import { Login } from "../pages/Login";
+import dotenv from "dotenv";
+import path from "path";
+dotenv.config({ path: path.resolve(__dirname, ".env") });
 
-const LOGIN_URL =
-  "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login";
-
-const DASHBOARD_URL = `https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index`;
-
-let loginUsername = `Admin`;
-let loginPassword = `admin123`;
+const loginUsername = process.env.LOGIN_USERNAME;
+const loginPassword = process.env.LOGIN_PASSWORD;
+const DASHBOARD_URL = process.env.DASHBOARD_URL;
+const login_url = process.env.LOGIN_URL;
 
 test("login", async ({ page }) => {
-  await page.goto(LOGIN_URL, { waitUntil: "networkidle" });
   const loginPage = new Login(page);
-  await loginPage.login(loginUsername, loginPassword);
+  await loginPage.login(login_url, loginUsername, loginPassword);
   await loginPage.verifyLogin(DASHBOARD_URL);
   await page.context().storageState({ path: "auth.json" });
 });

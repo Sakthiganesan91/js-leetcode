@@ -13,16 +13,14 @@ export class Login {
     this.action = new Action(page);
   }
 
-  async login(username, password) {
+  async login(login_url, username, password) {
     let usernameField = this.fields.username;
     let passwordField = this.fields.password;
     let loginButton = this.fields.loginButton;
     let _page = this.page;
-    await expect(_page.locator(usernameField)).toBeVisible();
-    await expect(_page.locator(passwordField)).toBeVisible();
+    await _page.goto(login_url, { waitUntil: "networkidle" });
     await this.action.fillField(usernameField, username);
     await this.action.fillField(passwordField, password);
-    await expect(_page.locator(loginButton)).toBeEnabled();
     await this.action.click(loginButton);
   }
 

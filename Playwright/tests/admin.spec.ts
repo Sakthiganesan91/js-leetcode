@@ -1,10 +1,13 @@
 import { test } from "@playwright/test";
 import { Admin } from "../pages/Admin";
+import dotenv from "dotenv";
+import path from "path";
+dotenv.config({ path: path.resolve(__dirname, ".env") });
 
-let oldUserName = "ABT123";
-let newUserName = "Friram";
+let oldUserName = process.env.OLD_USERNAME;
+let newUserName = process.env.NEW_USERNAME;
 
-const DASHBOARD_URL = `https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index`;
+const DASHBOARD_URL = process.env.DASHBOARD_URL;
 
 test.use({ storageState: "auth.json" });
 test("edit username", async ({ page }) => {
