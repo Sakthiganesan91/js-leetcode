@@ -1,10 +1,10 @@
 import { expect } from "@playwright/test";
 import { Action } from "../helper/Action";
 
-export class Admin {
+export class Admin extends Action {
   constructor(page) {
+    super(page);
     this.page = page;
-    this.action = new Action(page);
     this.dashBoardFields = {
       adminLink: `//nav[@role='navigation']//ul[contains(@class,'oxd-main-menu')]//span[text()='Admin']/..`,
     };
@@ -27,7 +27,7 @@ export class Admin {
   async navigateAdminPage(url) {
     let _page = this.page;
     await _page.goto(url, { waitUntil: "networkidle" });
-    await this.action.click(this.dashBoardFields.adminLink);
+    await this.click(this.dashBoardFields.adminLink);
     await expect(_page.locator(this.dashBoardFields.adminLink)).toContainClass(
       "active"
     );
@@ -35,19 +35,19 @@ export class Admin {
   async editUserName(oldUserName, newUserName) {
     let _page = this.page;
     await expect(_page.locator(this.adminPageFields.usersTable)).toBeVisible();
-    await this.action.click(this.adminPageFields.editButton(oldUserName));
+    await this.click(this.adminPageFields.editButton(oldUserName));
     await expect(_page.locator(this.editPage.userNameField)).toHaveValue(
       oldUserName
     );
-    await this.action.fillField(this.editPage.userNameField, newUserName);
+    await this.fillField(this.editPage.userNameField, newUserName);
     await expect(_page.locator(this.editPage.userNameField)).toHaveValue(
       newUserName
     );
-    await this.action.click(this.editPage.submitButton);
+    await this.click(this.editPage.submitButton);
   }
   async verifyChangedUserName(newUserName) {
     let _page = this.page;
-    await this.action.waitForElement(this.adminPageFields.usersTable, {
+    await this.waitForElement(this.adminPageFields.usersTable, {
       state: "visible",
       timeout: 20000,
     });
